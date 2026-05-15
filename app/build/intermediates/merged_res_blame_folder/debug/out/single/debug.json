@@ -1,10 +1,10 @@
 [
     {
-        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-40:/xml_data_extraction_rules.xml.flat",
-        "source": "com.vdkolekar.bluetoothremote.app-main-42:/xml/data_extraction_rules.xml"
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/xml_backup_rules.xml.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/xml/backup_rules.xml"
     },
     {
-        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-40:/xml_backup_rules.xml.flat",
-        "source": "com.vdkolekar.bluetoothremote.app-main-42:/xml/backup_rules.xml"
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/xml_data_extraction_rules.xml.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/xml/data_extraction_rules.xml"
     }
 ]

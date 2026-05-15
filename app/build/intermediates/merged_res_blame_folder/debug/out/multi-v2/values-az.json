@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.vdkolekar.bluetoothremote.app-mergeDebugResources-38:/values-az/values-az.xml",
+            "outputFile": "com.vdkolekar.bluetoothremote.app-mergeDebugResources-39:/values-az/values-az.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Vishal\\.gradle\\caches\\transforms-4\\f07aae62d62bee8f2b2825f88d7ad3c0\\transformed\\material3-1.1.2\\res\\values-az\\values-az.xml",

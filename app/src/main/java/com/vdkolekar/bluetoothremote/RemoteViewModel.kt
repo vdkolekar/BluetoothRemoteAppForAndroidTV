@@ -3,14 +3,41 @@ package com.vdkolekar.bluetoothremote
 import android.bluetooth.BluetoothDevice
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.flow.StateFlow
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.*
 
 class RemoteViewModel(private val bluetoothManager: BluetoothManager) : ViewModel() {
 
     private val reportSender = ReportSender(bluetoothManager)
 
+    private val _isDarkMode = MutableStateFlow(true)
+    val isDarkMode: StateFlow<Boolean> = _isDarkMode.asStateFlow()
+
+    private val _filterOnlyTVs = MutableStateFlow(true)
+    val filterOnlyTVs: StateFlow<Boolean> = _filterOnlyTVs.asStateFlow()
+
+    fun toggleFilter() {
+        _filterOnlyTVs.value = !_filterOnlyTVs.value
+    }
+
+    fun toggleDarkMode() {
+        _isDarkMode.value = !_isDarkMode.value
+    }
+
     val connectionState: StateFlow<Int> = bluetoothManager.connectionState
-    val foundDevices: StateFlow<Set<BluetoothDevice>> = bluetoothManager.foundDevices
+    val connectedDeviceName: StateFlow<String?> = bluetoothManager.connectedDeviceName
+    
+    val foundDevices: StateFlow<Set<BluetoothDevice>> = combine(
+        bluetoothManager.foundDevices,
+        _filterOnlyTVs
+    ) { devices, filter ->
+        if (filter) {
+            devices.filter { bluetoothManager.isLikelyAndroidTV(it) }.toSet()
+        } else {
+            devices
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
+
     val isScanning: StateFlow<Boolean> = bluetoothManager.isScanning
 
     fun onConnectClicked() {
@@ -28,31 +55,63 @@ class RemoteViewModel(private val bluetoothManager: BluetoothManager) : ViewMode
     }
 
     fun onDpadUpClicked() {
-        reportSender.sendClick(ReportSender.KeyCodes.UP)
+        reportSender.sendKeyboardClick(ReportSender.KeyboardKeyCodes.UP)
     }
 
     fun onDpadDownClicked() {
-        reportSender.sendClick(ReportSender.KeyCodes.DOWN)
+        reportSender.sendKeyboardClick(ReportSender.KeyboardKeyCodes.DOWN)
     }
 
     fun onDpadLeftClicked() {
-        reportSender.sendClick(ReportSender.KeyCodes.LEFT)
+        reportSender.sendKeyboardClick(ReportSender.KeyboardKeyCodes.LEFT)
     }
 
     fun onDpadRightClicked() {
-        reportSender.sendClick(ReportSender.KeyCodes.RIGHT)
+        reportSender.sendKeyboardClick(ReportSender.KeyboardKeyCodes.RIGHT)
     }
 
     fun onOkClicked() {
-        reportSender.sendClick(ReportSender.KeyCodes.ENTER)
+        reportSender.sendKeyboardClick(ReportSender.KeyboardKeyCodes.ENTER)
     }
 
     fun onBackClicked() {
-        reportSender.sendClick(ReportSender.KeyCodes.ESCAPE)
+        reportSender.sendConsumerClick(1, ReportSender.ConsumerBitPositionsByte1.BACK)
     }
 
     fun onHomeClicked() {
-        reportSender.sendClick(ReportSender.KeyCodes.HOME)
+        reportSender.sendConsumerClick(1, ReportSender.ConsumerBitPositionsByte1.HOME)
+    }
+
+    fun onPowerClicked() {
+        reportSender.sendConsumerClick(0, ReportSender.ConsumerBitPositions.POWER)
+    }
+
+    fun onVolumeUpClicked() {
+        reportSender.sendConsumerClick(0, ReportSender.ConsumerBitPositions.VOLUME_UP)
+    }
+
+    fun onVolumeDownClicked() {
+        reportSender.sendConsumerClick(0, ReportSender.ConsumerBitPositions.VOLUME_DOWN)
+    }
+
+    fun onMuteClicked() {
+        reportSender.sendConsumerClick(0, ReportSender.ConsumerBitPositions.MUTE)
+    }
+
+    fun onNetflixClicked() {
+        reportSender.sendConsumerClick(1, ReportSender.ConsumerBitPositionsByte1.NETFLIX)
+    }
+
+    fun onYouTubeClicked() {
+        reportSender.sendConsumerClick(1, ReportSender.ConsumerBitPositionsByte1.YOUTUBE)
+    }
+
+    fun onPrimeClicked() {
+        reportSender.sendConsumerClick(1, ReportSender.ConsumerBitPositionsByte1.PRIME)
+    }
+
+    fun onHotstarClicked() {
+        reportSender.sendConsumerClick(1, ReportSender.ConsumerBitPositionsByte1.HOTSTAR)
     }
 
     override fun onCleared() {

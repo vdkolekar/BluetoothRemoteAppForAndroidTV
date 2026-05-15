@@ -9,6 +9,7 @@ MERGED from [androidx.activity:activity:1.8.0] C:\Users\Vishal\.gradle\caches\tr
 MERGED from [androidx.activity:activity-compose:1.8.0] C:\Users\Vishal\.gradle\caches\transforms-4\2ca4dc4f3246ca360c5ba3435698f7a0\transformed\activity-compose-1.8.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.animation:animation-core-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\4ceeb5a0377a5a076a44dd9ea85c2b71\transformed\animation-core-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-icons-core-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\c1c78a6094ef5f8de4254e097d355a07\transformed\material-icons-core-release\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\53b8a7c9eb77627b8963d4377890b4f4\transformed\material-icons-extended-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-ripple-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\1a5ef87216111edccb8701b70f87d6cd\transformed\material-ripple-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.animation:animation-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\f26b48f0ad2a1509be5076fe109b0c7c\transformed\animation-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.foundation:foundation-layout-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\eba24ccd1caaf28a837c3b132487517d\transformed\foundation-layout-release\AndroidManifest.xml:2:1-7:12
@@ -67,27 +68,25 @@ ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManife
 	android:name
 		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:7:22-71
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:8:5-106
-	android:maxSdkVersion
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:8:77-103
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:8:5-79
 	android:name
 		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:8:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:9:5-81
+	android:name
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:9:22-78
 uses-permission#android.permission.BLUETOOTH_CONNECT
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:12:5-76
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:13:5-76
 	android:name
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:12:22-73
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:13:22-73
 uses-permission#android.permission.BLUETOOTH_SCAN
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:14:5-17:31
-	android:usesPermissionFlags
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:16:9-55
-	tools:targetApi
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:17:9-28
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:15:5-73
 	android:name
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:15:9-57
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:15:22-70
 uses-permission#android.permission.BLUETOOTH_ADVERTISE
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:19:5-78
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:17:5-78
 	android:name
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:19:22-75
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:17:22-75
 application
 ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:21:5-40:19
 INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:21:5-40:19
@@ -155,6 +154,8 @@ MERGED from [androidx.compose.animation:animation-core-android:1.5.4] C:\Users\V
 MERGED from [androidx.compose.animation:animation-core-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\4ceeb5a0377a5a076a44dd9ea85c2b71\transformed\animation-core-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\c1c78a6094ef5f8de4254e097d355a07\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\c1c78a6094ef5f8de4254e097d355a07\transformed\material-icons-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\53b8a7c9eb77627b8963d4377890b4f4\transformed\material-icons-extended-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\53b8a7c9eb77627b8963d4377890b4f4\transformed\material-icons-extended-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-ripple-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\1a5ef87216111edccb8701b70f87d6cd\transformed\material-ripple-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-ripple-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\1a5ef87216111edccb8701b70f87d6cd\transformed\material-ripple-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.animation:animation-android:1.5.4] C:\Users\Vishal\.gradle\caches\transforms-4\f26b48f0ad2a1509be5076fe109b0c7c\transformed\animation-release\AndroidManifest.xml:5:5-44

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.vdkolekar.bluetoothremote.app-mergeDebugResources-38:/values-te/values-te.xml",
+            "outputFile": "com.vdkolekar.bluetoothremote.app-mergeDebugResources-39:/values-te/values-te.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Vishal\\.gradle\\caches\\transforms-4\\ff17f27d549d8f85ec5ccbad1f4fcb37\\transformed\\ui-release\\res\\values-te\\values-te.xml",

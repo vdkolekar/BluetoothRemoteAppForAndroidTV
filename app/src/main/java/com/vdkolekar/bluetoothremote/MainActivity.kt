@@ -20,13 +20,14 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -39,7 +40,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
@@ -59,13 +59,23 @@ class MainActivity : ComponentActivity() {
         bluetoothManager = BluetoothManager(this)
 
         setContent {
+            val isDarkMode by viewModel.isDarkMode.collectAsState()
             MaterialTheme(
-                colorScheme = darkColorScheme(
-                    background = Color(0xFF0F172A), // Slate 900
-                    surface = Color(0xFF1E293B),    // Slate 800
-                    primary = Color(0xFF3B82F6),    // Blue 500
-                    onPrimary = Color.White
-                )
+                colorScheme = if (isDarkMode) {
+                    darkColorScheme(
+                        background = Color(0xFF0F172A),
+                        surface = Color(0xFF1E293B),
+                        primary = Color(0xFF3B82F6),
+                        onPrimary = Color.White
+                    )
+                } else {
+                    lightColorScheme(
+                        background = Color(0xFFF8FAFC),
+                        surface = Color.White,
+                        primary = Color(0xFF2563EB),
+                        onPrimary = Color.White
+                    )
+                }
             ) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -81,21 +91,33 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun RemoteApp(viewModel: RemoteViewModel) {
     val connectionState by viewModel.connectionState.collectAsState()
+    val connectedDeviceName by viewModel.connectedDeviceName.collectAsState()
     val foundDevices by viewModel.foundDevices.collectAsState()
     val isScanning by viewModel.isScanning.collectAsState()
+    val isDarkMode by viewModel.isDarkMode.collectAsState()
     val context = LocalContext.current
 
     var showDevicePicker by remember { mutableStateOf(false) }
+    var showInfoDialog by remember { mutableStateOf(false) }
 
-    // Permission handling
+    if (showInfoDialog) {
+        InfoDialog(onDismiss = { showInfoDialog = false })
+    }
+
     val permissionsToRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         arrayOf(
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.BLUETOOTH_SCAN,
-            Manifest.permission.BLUETOOTH_ADVERTISE
+            Manifest.permission.BLUETOOTH_ADVERTISE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
         )
     } else {
-        arrayOf(Manifest.permission.BLUETOOTH, Manifest.permission.ACCESS_FINE_LOCATION)
+        arrayOf(
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -109,13 +131,17 @@ fun RemoteApp(viewModel: RemoteViewModel) {
     }
 
     if (showDevicePicker) {
+        val filterOnlyTVs by viewModel.filterOnlyTVs.collectAsState()
         DevicePicker(
             devices = foundDevices.toList(),
             isScanning = isScanning,
+            filterOnlyTVs = filterOnlyTVs,
             onDeviceSelected = { device ->
                 viewModel.onDeviceSelected(device)
                 showDevicePicker = false
             },
+            onRefresh = { viewModel.onConnectClicked() },
+            onToggleFilter = { viewModel.toggleFilter() },
             onDismiss = { showDevicePicker = false }
         )
     }
@@ -126,17 +152,65 @@ fun RemoteApp(viewModel: RemoteViewModel) {
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                // Power Button
+                IconButton(
+                    onClick = { viewModel.onPowerClicked() },
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(Color.Red.copy(alpha = 0.1f))
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.PowerSettingsNew,
+                        contentDescription = "Power",
+                        tint = Color.Red
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                // Info Button
+                IconButton(
+                    onClick = { showInfoDialog = true }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "Info",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+
+            // Dark Mode Toggle
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = if (isDarkMode) "Dark" else "Light",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Switch(
+                    checked = isDarkMode,
+                    onCheckedChange = { viewModel.toggleDarkMode() },
+                    modifier = Modifier.scale(0.8f)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
         
-        // Header / Status
         StatusBanner(
             state = connectionState,
+            deviceName = connectedDeviceName ?: "Android TV",
             onConnectClick = {
-                Log.d("MainActivity", "Connect banner clicked")
                 val hasPermissions = permissionsToRequest.all {
                     ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
                 }
-                Log.d("MainActivity", "Has permissions: $hasPermissions")
                 if (hasPermissions) {
                     viewModel.onConnectClicked()
                     showDevicePicker = true
@@ -146,93 +220,102 @@ fun RemoteApp(viewModel: RemoteViewModel) {
             }
         )
 
-        Spacer(modifier = Modifier.height(64.dp))
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // Volume Controls
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RemoteButton(
+                icon = Icons.Default.VolumeDown,
+                onClick = { viewModel.onVolumeDownClicked() },
+                modifier = Modifier.size(56.dp)
+            )
+            RemoteButton(
+                icon = Icons.Default.VolumeMute,
+                onClick = { viewModel.onMuteClicked() },
+                modifier = Modifier.size(56.dp)
+            )
+            RemoteButton(
+                icon = Icons.Default.VolumeUp,
+                onClick = { viewModel.onVolumeUpClicked() },
+                modifier = Modifier.size(56.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
 
         // D-Pad Area
         Box(
             modifier = Modifier
-                .size(280.dp)
-                .shadow(
-                    elevation = 20.dp,
-                    shape = CircleShape,
-                    spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-                )
+                .size(260.dp)
+                .shadow(elevation = 15.dp, shape = CircleShape)
                 .background(
                     brush = Brush.radialGradient(
                         colors = listOf(
-                            Color(0xFF334155), // Slate 700
-                            Color(0xFF1E293B)  // Slate 800
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            MaterialTheme.colorScheme.surface
                         )
                     ),
                     shape = CircleShape
                 ),
             contentAlignment = Alignment.Center
         ) {
-            // Up
             RemoteButton(
                 icon = Icons.Default.KeyboardArrowUp,
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 16.dp),
+                modifier = Modifier.align(Alignment.TopCenter).padding(top = 10.dp),
                 onClick = { viewModel.onDpadUpClicked() }
             )
-            // Down
             RemoteButton(
                 icon = Icons.Default.KeyboardArrowDown,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 16.dp),
+                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 10.dp),
                 onClick = { viewModel.onDpadDownClicked() }
             )
-            // Left
             RemoteButton(
                 icon = Icons.Default.KeyboardArrowLeft,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 16.dp),
+                modifier = Modifier.align(Alignment.CenterStart).padding(start = 10.dp),
                 onClick = { viewModel.onDpadLeftClicked() }
             )
-            // Right
             RemoteButton(
                 icon = Icons.Default.KeyboardArrowRight,
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(end = 16.dp),
+                modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp),
                 onClick = { viewModel.onDpadRightClicked() }
             )
             
-            // OK Center Button
             Box(
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(90.dp)
                     .clip(CircleShape)
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.primary,
-                                Color(0xFF60A5FA) // Blue 400
-                            )
-                        )
-                    )
+                    .background(MaterialTheme.colorScheme.primary)
                     .clickableWithHaptics { viewModel.onOkClicked() },
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "OK",
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Text("OK", color = Color.White, fontWeight = FontWeight.Bold)
             }
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // Bottom Utilities
+            // App Shortcuts (Commented out for future use)
+            /*
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                AppShortcutButton("NF", "Netflix", Color(0xFFE50914)) { viewModel.onNetflixClicked() }
+                AppShortcutButton("YT", "YouTube", Color(0xFFFF0000)) { viewModel.onYouTubeClicked() }
+                AppShortcutButton("AP", "Prime", Color(0xFF00A8E1)) { viewModel.onPrimeClicked() }
+                AppShortcutButton("HS", "Hotstar", Color(0xFF001944)) { viewModel.onHotstarClicked() }
+            }
+            */
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Bottom Bar
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             UtilityButton(
@@ -246,8 +329,7 @@ fun RemoteApp(viewModel: RemoteViewModel) {
                 onClick = { viewModel.onHomeClicked() }
             )
         }
-        
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
@@ -255,22 +337,31 @@ fun RemoteApp(viewModel: RemoteViewModel) {
 fun DevicePicker(
     devices: List<BluetoothDevice>,
     isScanning: Boolean,
+    filterOnlyTVs: Boolean,
     onDeviceSelected: (BluetoothDevice) -> Unit,
+    onRefresh: () -> Unit,
+    onToggleFilter: () -> Unit,
     onDismiss: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select Android TV") },
+        title = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("Select Device")
+                Switch(checked = filterOnlyTVs, onCheckedChange = { onToggleFilter() }, modifier = Modifier.scale(0.7f))
+            }
+        },
         text = {
             Column {
-                if (isScanning) {
-                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
+                if (isScanning) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 if (devices.isEmpty()) {
-                    Text("Searching for devices...")
+                    Text("No devices found.", modifier = Modifier.padding(vertical = 16.dp))
                 } else {
-                    androidx.compose.foundation.lazy.LazyColumn {
+                    androidx.compose.foundation.lazy.LazyColumn(modifier = Modifier.heightIn(max = 300.dp)) {
                         items(devices) { device ->
                             @SuppressLint("MissingPermission")
                             val deviceName = device.name ?: "Unknown Device"
@@ -284,142 +375,149 @@ fun DevicePicker(
                 }
             }
         },
+        confirmButton = { TextButton(onClick = onRefresh) { Text("Scan") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } }
+    )
+}
+
+@Composable
+fun StatusBanner(state: Int, deviceName: String, onConnectClick: () -> Unit) {
+    val (statusText, statusColor) = when (state) {
+        BluetoothProfile.STATE_CONNECTED -> "Connected" to Color(0xFF10B981)
+        BluetoothProfile.STATE_CONNECTING -> "Connecting..." to Color(0xFFF59E0B)
+        else -> "Tap to Connect" to Color(0xFFEF4444)
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .clickable(onClick = onConnectClick)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(deviceName, style = MaterialTheme.typography.titleMedium)
+        Text(statusText, color = statusColor, fontWeight = FontWeight.Bold)
+    }
+}
+
+@Composable
+fun InfoDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("How to Connect Your Remote to Android TV") },
+        text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                Text(
+                    text = "Follow these simple steps to pair your mobile remote with your Android TV via Bluetooth:",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                
+                Text("1. Enable Bluetooth:", fontWeight = FontWeight.Bold)
+                Text("Turn on Bluetooth on both your mobile device and your Android TV.")
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text("2. Initial Pairing:", fontWeight = FontWeight.Bold)
+                Text("Navigate to your mobile device's Bluetooth settings, look for your Android TV in the available devices list, and select it to connect. (Note: If the connection drops on the first attempt, please try once or twice more).")
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text("3. App Setup:", fontWeight = FontWeight.Bold)
+                Text("Open the 3Dfier app, grant the necessary Bluetooth permissions when prompted, and select your Android TV from the in-app device list.")
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text("4. Ready to Use:", fontWeight = FontWeight.Bold)
+                Text("Your mobile remote is now securely connected and ready to control your TV!")
+                
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(
+                    text = "For technical inquiries, bug reports, or product feedback, contact our development team at 3dfier.in@gmail.com.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                Text("Thank you,", fontWeight = FontWeight.Medium)
+                Text("Team 3Dfier", fontWeight = FontWeight.Bold)
+            }
+        },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text("Close")
             }
         }
     )
 }
 
 @Composable
-fun StatusBanner(state: Int, onConnectClick: () -> Unit) {
-    val (statusText, statusColor) = when (state) {
-        BluetoothProfile.STATE_CONNECTED -> "Connected" to Color(0xFF10B981) // Emerald 500
-        BluetoothProfile.STATE_CONNECTING -> "Connecting..." to Color(0xFFF59E0B) // Amber 500
-        else -> "Tap to Connect" to Color(0xFFEF4444) // Red 500
-    }
-
-    val animatedColor by animateColorAsState(targetValue = statusColor, label = "color")
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .background(Color(0xFF1E293B))
-            .clickable(onClick = onConnectClick)
-            .padding(horizontal = 20.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+fun AppShortcutButton(label: String, fullName: String, color: Color, onClick: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(4.dp)
     ) {
-        Column {
-            Text(
-                text = "Android TV",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = statusText,
-                color = animatedColor,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
-            )
-        }
-        
-        // Status indicator dot
         Box(
             modifier = Modifier
-                .size(12.dp)
-                .clip(CircleShape)
-                .background(animatedColor)
-                .shadow(
-                    elevation = 8.dp,
-                    shape = CircleShape,
-                    spotColor = animatedColor
-                )
+                .size(width = 70.dp, height = 45.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(color)
+                .clickableWithHaptics(onClick = onClick),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = label,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = fullName,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 10.sp
         )
     }
 }
 
 @Composable
-fun RemoteButton(
-    icon: ImageVector,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
+fun RemoteButton(icon: ImageVector, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Box(
         modifier = modifier
-            .size(64.dp)
             .clip(CircleShape)
-            .background(Color.Transparent)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .clickableWithHaptics(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = Color.White.copy(alpha = 0.8f),
-            modifier = Modifier.size(36.dp)
-        )
+        Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(32.dp))
     }
 }
 
 @Composable
-fun UtilityButton(
-    icon: ImageVector,
-    label: String,
-    onClick: () -> Unit
-) {
+fun UtilityButton(icon: ImageVector, label: String, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .clickableWithHaptics(onClick = onClick)
-            .padding(12.dp)
+        modifier = Modifier.clickableWithHaptics(onClick = onClick).padding(8.dp)
     ) {
         Box(
-            modifier = Modifier
-                .size(56.dp)
-                .clip(CircleShape)
-                .background(Color(0xFF1E293B)),
+            modifier = Modifier.size(56.dp).clip(CircleShape).background(MaterialTheme.colorScheme.surfaceVariant),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = label,
-                tint = Color.White
-            )
+            Icon(imageVector = icon, contentDescription = label)
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = label,
-            color = Color.Gray,
-            fontSize = 12.sp
-        )
+        Text(label, style = MaterialTheme.typography.labelSmall, modifier = Modifier.padding(top = 4.dp))
     }
 }
 
-// Custom modifier for adding haptic feedback and scale animation to clicks
 @Composable
 fun Modifier.clickableWithHaptics(onClick: () -> Unit): Modifier {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val view = LocalView.current
-    
-    val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.9f else 1f,
-        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy),
-        label = "scale"
-    )
-
-    return this
-        .scale(scale)
-        .clickable(
-            interactionSource = interactionSource,
-            indication = null // We handle our own visual feedback with scaling
-        ) {
-            view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
-            onClick()
-        }
+    val scale by animateFloatAsState(targetValue = if (isPressed) 0.9f else 1f, label = "scale")
+    return this.scale(scale).clickable(interactionSource = interactionSource, indication = null) {
+        view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+        onClick()
+    }
 }
