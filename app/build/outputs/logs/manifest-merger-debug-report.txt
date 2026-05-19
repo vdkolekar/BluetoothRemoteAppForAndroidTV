@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:2:1-42:12
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:2:1-44:12
+INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:2:1-44:12
+INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:2:1-44:12
+INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:2:1-44:12
 MERGED from [androidx.compose.material3:material3:1.1.2] C:\Users\Vishal\.gradle\caches\transforms-4\f07aae62d62bee8f2b2825f88d7ad3c0\transformed\material3-1.1.2\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.activity:activity:1.8.0] C:\Users\Vishal\.gradle\caches\transforms-4\534ae0c4259871c566ca3c7e250d0125\transformed\activity-1.8.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.activity:activity-compose:1.8.0] C:\Users\Vishal\.gradle\caches\transforms-4\2ca4dc4f3246ca360c5ba3435698f7a0\transformed\activity-compose-1.8.0\AndroidManifest.xml:2:1-7:12
@@ -88,8 +88,8 @@ ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManife
 	android:name
 		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:17:22-75
 application
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:21:5-40:19
-INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:21:5-40:19
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:21:5-42:19
+INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:21:5-42:19
 MERGED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Vishal\.gradle\caches\transforms-4\4bc298dc280f358748ad7ed718b8982a\transformed\emoji2-1.4.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.emoji2:emoji2:1.4.0] C:\Users\Vishal\.gradle\caches\transforms-4\4bc298dc280f358748ad7ed718b8982a\transformed\emoji2-1.4.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Vishal\.gradle\caches\transforms-4\8c1456a22bc4e56684fc7aafbbd62802\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:23:5-33:19
@@ -107,39 +107,43 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Vishal\.gradle\cac
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\Vishal\.gradle\caches\transforms-4\e66eb26434afd1aac584dcc0064a0c59\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:26:9-35
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:28:9-35
 	android:label
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:25:9-41
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:27:9-41
 	android:fullBackupContent
 		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:24:9-54
+	android:roundIcon
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:26:9-47
 	tools:targetApi
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:28:9-29
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:30:9-29
+	android:icon
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:25:9-42
 	android:allowBackup
 		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:22:9-35
 	android:theme
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:27:9-53
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:29:9-53
 	android:dataExtractionRules
 		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:23:9-65
 activity#com.vdkolekar.bluetoothremote.MainActivity
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:30:9-39:20
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:32:9-41:20
 	android:label
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:33:13-45
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:35:13-45
 	android:exported
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:32:13-36
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:34:13-36
 	android:theme
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:34:13-57
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:36:13-57
 	android:name
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:31:13-41
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:33:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:35:13-38:29
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:37:13-40:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:36:17-69
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:38:17-69
 	android:name
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:36:25-66
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:38:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:37:17-77
+ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:39:17-77
 	android:name
-		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:37:27-74
+		ADDED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml:39:27-74
 uses-sdk
 INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Vishal\Playground\BluetoothRemote\app\src\main\AndroidManifest.xml

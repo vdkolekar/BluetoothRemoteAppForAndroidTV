@@ -1,5 +1,10 @@
 R_DEF: Internal format may change without notice
 local
+drawable app_launcher_background
+drawable app_logo
+mipmap app_launcher
+mipmap app_launcher_foreground
+mipmap app_launcher_round
 string app_name
 style Theme.BluetoothRemote
 xml backup_rules

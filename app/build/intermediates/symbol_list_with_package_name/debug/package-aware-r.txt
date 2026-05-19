@@ -46,6 +46,8 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
+drawable app_launcher_background
+drawable app_logo
 drawable ic_call_answer
 drawable ic_call_answer_low
 drawable ic_call_answer_video
@@ -162,6 +164,9 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+mipmap app_launcher
+mipmap app_launcher_foreground
+mipmap app_launcher_round
 string androidx_startup
 string app_name
 string bottom_sheet_collapse_description

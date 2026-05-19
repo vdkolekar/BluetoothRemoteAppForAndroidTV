@@ -1,10 +1,86 @@
 [
     {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/drawable_app_logo.png.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/drawable/app_logo.png"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-xhdpi_app_launcher_round.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-xhdpi/app_launcher_round.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-anydpi-v26_app_launcher_round.xml.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-anydpi-v26/app_launcher_round.xml"
+    },
+    {
         "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/xml_backup_rules.xml.flat",
         "source": "com.vdkolekar.bluetoothremote.app-main-43:/xml/backup_rules.xml"
     },
     {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-xxhdpi_app_launcher_round.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-xxhdpi/app_launcher_round.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-xxxhdpi_app_launcher_round.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-xxxhdpi/app_launcher_round.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/drawable_app_launcher_background.xml.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/drawable/app_launcher_background.xml"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-xxhdpi_app_launcher_foreground.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-xxhdpi/app_launcher_foreground.webp"
+    },
+    {
         "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/xml_data_extraction_rules.xml.flat",
         "source": "com.vdkolekar.bluetoothremote.app-main-43:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-xxhdpi_app_launcher.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-xxhdpi/app_launcher.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-hdpi_app_launcher.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-hdpi/app_launcher.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-hdpi_app_launcher_round.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-hdpi/app_launcher_round.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-mdpi_app_launcher_foreground.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-mdpi/app_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-xxxhdpi_app_launcher.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-xxxhdpi/app_launcher.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-mdpi_app_launcher_round.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-mdpi/app_launcher_round.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-xxxhdpi_app_launcher_foreground.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-xxxhdpi/app_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-xhdpi_app_launcher.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-xhdpi/app_launcher.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-mdpi_app_launcher.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-mdpi/app_launcher.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-anydpi-v26_app_launcher.xml.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-anydpi-v26/app_launcher.xml"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-xhdpi_app_launcher_foreground.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-xhdpi/app_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.vdkolekar.bluetoothremote.app-merged_res-41:/mipmap-hdpi_app_launcher_foreground.webp.flat",
+        "source": "com.vdkolekar.bluetoothremote.app-main-43:/mipmap-hdpi/app_launcher_foreground.webp"
     }
 ]
